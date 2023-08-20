@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proyecto Flex y Node.js</title>
+</head>
+<body>
+    <h1>Ejecutar archivo .exe con Flex y Node.js</h1>
+    <form action="/Ejecutaranalizador" method="post" enctype="multipart/form-data">
+        <label for="phpFile">Selecciona un archivo .php:</label>
+        <input type="file" name="phpFile" id="phpFile" accept=".php">
+        <button type="submit">Ejecutar .exe</button>
+    </form>
+    <!-- En el archivo index.html -->
+    <script>
+        document.querySelector('form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const response = await fetch('/Ejecutaranalizador', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const downloadUrl = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = 'Reporte1.pdf';
+                link.click();
+                
+                // Liberar la URL del objeto después de la descarga
+                URL.revokeObjectURL(downloadUrl);
+            } else {
+                console.error('Error:', response.status);
+            }
+        });
+    </script>
+
+</body>
+</html>
