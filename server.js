@@ -54,6 +54,6 @@ app.post('/Ejecutaranalizador', upload.single('phpFile'), async (req, res) => {
     }
 });
 app.listen(port, () => {
-    
+    console.log(`Servidor activo en http://localhost:${port}`);    
 });
 
