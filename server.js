@@ -2,9 +2,8 @@ const express = require('express');
 const { exec } = require('child_process');
 const multer = require('multer');
 const fs = require('fs').promises;
-const PDFDocument = require('pdfkit');
-
-
+const { PDFDocument, rgb } = require('pdf-lib'); // Importa desde pdf-lib
+const JSZip = require('jszip');
 
 const app = express();
 const port = 3000;
@@ -24,36 +23,86 @@ app.post('/Ejecutaranalizador', upload.single('phpFile'), async (req, res) => {
     try {
         await fs.writeFile('temp.php', phpCode);
 
-        const executableOutput = exec('analizadorphp.exe < temp.php', (error, stdout, stderr) => {
+        exec('analizadorphp.exe < temp.php', async (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error: ${error.message}`);
                 return res.status(500).send('Error al leer el archivo.');
             }
 
-            const pdfDoc = new PDFDocument({ bufferPages: true });
-            pdfDoc.text('Aqui va el texto de el encavezzados del pdf:');
-
             const outputLines = stdout.split('\n');
+            const reportParts = [];
+            let currentPart = '';
+
             for (const line of outputLines) {
-                const cleanedLine = line.trim(); 
-                pdfDoc.text(cleanedLine);
+                if (line.trim() === '----------------------------------------------------------') {
+                    reportParts.push(currentPart);
+                    currentPart = '';
+                } else {
+                    currentPart += line + '\n';
+                }
             }
 
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'attachment; filename=Reporte1.pdf');
-            res.setHeader('Content-Transfer-Encoding', 'binary'); // Agrega esta línea
+            if (currentPart.trim() !== '') {
+                reportParts.push(currentPart);
+            }
 
-            pdfDoc.pipe(res);
-            pdfDoc.end();
+            const zip = new JSZip();
+            j=2;
+            encabezado = "Reporte de Lexemas y tokens\n";
+            for (let i = 0; i < reportParts.length; i++) {
+                const pdfDoc = await PDFDocument.create();
+            
+                let page = pdfDoc.addPage();
+                const fontSize = 12;
+            
+                const textHeight = page.getHeight() - 50;
+            
+                const cleanedPart = reportParts[i].trim();
+                const partLines = cleanedPart.split('\n');
+                let y = textHeight;
+            
+                const header = `${encabezado}`;
+                page.drawText(header, {
+                    x: 50,
+                    y: textHeight + 10, 
+                    size: fontSize + 2, 
+                    color: rgb(0, 0, 0),
+                });
+                y -= fontSize + 12;
+                for (const partLine of partLines) {
+                    const text = page.drawText(partLine, {
+                        x: 50,
+                        y,
+                        size: fontSize,
+                        color: rgb(0, 0, 0),
+                    });
+                
+                    y -= fontSize + 2;
+                
+                    if (y <= 50) {
+                        page = pdfDoc.addPage(); 
+                        y = page.getHeight() - 50;
+                    }
+                }
+            
+                const pdfBytes = await pdfDoc.save();
+            
+                zip.file(`Reporte${j}.pdf`, pdfBytes);
+                j=1;
+                encabezado = "Reporte cantidad de datos y conteo de palabras reservadas\n";
+            }
 
-
+            const zipContent = await zip.generateAsync({ type: 'nodebuffer' });
+            res.setHeader('Content-Type', 'application/zip');
+            res.setHeader('Content-Disposition', 'attachment; filename=Reportes.zip');
+            res.send(zipContent);
         });
     } catch (error) {
         console.error(`Error al escribir el guardar el archivo subido: ${error.message}`);
         return res.status(500).send('Error al leer el archivo.');
     }
 });
-app.listen(port, () => {
-    console.log(`Servidor activo en http://localhost:${port}`);    
-});
 
+app.listen(port, () => {
+    console.log(`Servidor activo en http://localhost:${port}`);
+});

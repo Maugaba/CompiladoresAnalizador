@@ -10,7 +10,6 @@
         <input type="file" name="phpFile" id="phpFile" accept=".php">
         <button type="submit">Ejecutar .exe</button>
     </form>
-    <!-- En el archivo index.html -->
     <script>
         document.querySelector('form').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -20,17 +19,15 @@
                 method: 'POST',
                 body: formData
             });
-
+    
             if (response.ok) {
-                const blob = await response.blob();
-                const downloadUrl = URL.createObjectURL(blob);
+                const zipBlob = await response.blob();
+                const downloadUrl = URL.createObjectURL(zipBlob);
                 
                 const link = document.createElement('a');
                 link.href = downloadUrl;
-                link.download = 'Reporte1.pdf';
+                link.download = 'Reportes.zip';
                 link.click();
-                
-                // Liberar la URL del objeto después de la descarga
                 URL.revokeObjectURL(downloadUrl);
             } else {
                 console.error('Error:', response.status);
