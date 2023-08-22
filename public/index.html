@@ -2,13 +2,21 @@
 <html>
 <head>
     <title>Proyecto Flex y Node.js</title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    <h1>Ejecutar archivo .exe con Flex y Node.js</h1>
+    <h1>Analizador léxico PHP</h1>
+    <h5>José Mauricio García Barrios - 202108029</h5>
+    <h5>Nilmar Saúl Pérez Orozco - 202108038</h5>
     <form action="/Ejecutaranalizador" method="post" enctype="multipart/form-data">
-        <label for="phpFile">Selecciona un archivo .php:</label>
-        <input type="file" name="phpFile" id="phpFile" accept=".php">
-        <button type="submit">Ejecutar .exe</button>
+        <div class="contenedor">
+            <div class="tarjeta">
+            <label for="phpFile" class="letras">Selecciona un archivo .php:</label>
+            <input type="file" name="phpFile" id="phpFile" accept=".php" class="seleccion">
+            <button type="submit" class="boton bot ">Ejecutar .exe</button>
+
+            </div>
+        </div>
     </form>
     <script>
         document.querySelector('form').addEventListener('submit', async (event) => {

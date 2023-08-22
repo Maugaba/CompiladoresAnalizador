@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color: #181818;
+    box-sizing: border-box;
+}
+
+.contenedor{
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tarjeta{
+    height: 50%;
+    width: 20%;
+    background-color: #101010;
+    border-radius: 10%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tarjeta::before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(purple 20deg, transparent 120deg);
+    animation: rotar 2s linear infinite;
+    
+
+}
+
+@keyframes rotar{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(-360deg);
+    }
+
+}
+
+.tarjeta::after{
+    content: "";
+    position: absolute;
+    height: 98%;
+    width: 98%;
+    background-color: #101010;
+    border-radius: 10%;
+
+}
+
+.letras{
+    color: white;
+    margin-top: 35px;    
+    z-index: 2;
+    background-color: transparent;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    text-shadow: 5px 5px 5px black;
+    align-items: center;
+
+}
+
+.seleccion{
+    text-align: center;
+    color: white;
+    margin-top: 35px;
+    z-index: 2;
+    background-color: transparent;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+    text-shadow: 5px 5px 5px black;
+
+}
+
+.boton{
+    color: black;
+    margin-top: 35px;
+    z-index: 2;
+    background-color: transparent;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    text-shadow: 5px 5px 5px black;
+    background-color: white;
+
+}
+
+h1{
+ text-align: center;
+ margin-top: 200px;
+ margin-bottom: -170px;
+ color: white;
+}
+
+
+h5{
+    text-align: center;
+    margin-top: 190px;
+    margin-bottom: -170px;
+    color: white;
+
+}
+
+
+  .bot {
+    position: relative;
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .bot::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse closest-side, rgba(255, 255, 255, 0.5), transparent);
+    transform: translate(-25%, -25%);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .bot:hover::before {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
