@@ -18,7 +18,7 @@
 
 .tarjeta{
     height: 50%;
-    width: 20%;
+    width: 30%;
     background-color: #101010;
     border-radius: 10%;
     position: relative;
@@ -114,7 +114,7 @@ h5{
 
   .bot {
     position: relative;
-    background-color: #8e44ad;
+    background-color: purple;
     color: white;
     border: none;
     padding: 15px 30px;
