@@ -32,8 +32,8 @@
 .tarjeta::before{
     content: "";
     position: absolute;
-    height: 500px;
-    width: 500px;
+    height: 700px;
+    width: 700px;
     border-radius: 10%;
     background-image: conic-gradient(purple 20deg, transparent 120deg);
     animation: rotar 6s linear infinite;
