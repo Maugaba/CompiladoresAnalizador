@@ -56,16 +56,20 @@ app.post('/Ejecutaranalizador', upload.single('phpFile'), async (req, res) => {
                 const fontSize = 12;
             
                 const textHeight = page.getHeight() - 50;
+                const textWidth = page.getWidth() / 2;
             
                 const cleanedPart = reportParts[i].trim();
                 const partLines = cleanedPart.split('\n');
                 let y = textHeight;
             
                 const header = `${encabezado}`;
+                const textSize = fontSize + 2;
+                const estimatedHeaderWidth = header.length * 6; 
+
                 page.drawText(header, {
-                    x: 50,
+                    x: textWidth - estimatedHeaderWidth / 2, 
                     y: textHeight + 10, 
-                    size: fontSize + 2, 
+                    size: textSize, 
                     color: rgb(0, 0, 0),
                 });
                 y -= fontSize + 12;
