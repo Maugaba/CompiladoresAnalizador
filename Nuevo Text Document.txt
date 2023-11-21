@@ -1,0 +1,25 @@
+MAIN{
+DEC x,y,total;
+INPUT x;
+
+if(x<t){
+if(x<t){
+x=x+45;  
+
+}
+
+}
+
+if(x<t){
+x=x+45;  
+}else{
+x=x^5;    
+}
+
+if(x<t){
+x=x+45;  
+
+}
+
+OUTPUT total;
+}
